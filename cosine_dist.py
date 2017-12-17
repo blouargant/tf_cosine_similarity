@@ -20,6 +20,7 @@ text4 = "qui est la bas ?"
 
 print(word_tokenizer(text2))
 #tfidf = TfidfVectorizer(tokenizer=tokenizer, use_idf=True)
+
 tfidf = TfidfVectorizer(norm='l2',min_df=0, use_idf=True, smooth_idf=False, sublinear_tf=True, tokenizer=word_tokenizer)
 sparse_tfidf_texts = tfidf.fit_transform([text1, text2, text3, text4])
 
