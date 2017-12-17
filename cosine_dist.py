@@ -19,9 +19,21 @@ text3 = "qui est le président des états unis ?"
 text4 = "qui est la bas ?"
 
 print(word_tokenizer(text2))
-tfidf = TfidfVectorizer(tokenizer=tokenizer, use_idf=True)
+#tfidf = TfidfVectorizer(tokenizer=tokenizer, use_idf=True)
+tfidf = TfidfVectorizer(norm='l2',min_df=0, use_idf=True, smooth_idf=False, sublinear_tf=True, tokenizer=word_tokenizer)
 sparse_tfidf_texts = tfidf.fit_transform([text1, text2, text3, text4])
-print(sparse_tfidf_texts)
+
+idf = tfidf.idf_
+print(tfidf.get_feature_names())
+for entry in sparse_tfidf_texts:
+    print("tfidf: %s" % entry[0])
+
+feature_names = tfidf.get_feature_names()
+doc = 0
+feature_index = sparse_tfidf_texts[doc,:].nonzero()[1]
+tfidf_scores = zip(feature_index, [sparse_tfidf_texts[doc, x] for x in feature_index])
+for w, s in [(feature_names[i], s) for (i, s) in tfidf_scores]:
+    print(w, s)
 #with tf.device('/device:CPU:0'):
 
 """
